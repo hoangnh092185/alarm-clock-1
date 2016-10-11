@@ -3,12 +3,12 @@ var currentTime = null,
         alarmTime = null;
 
 var update = function() {
-  date = moment().format('ss');
-  currentTime.html(moment().format('ss'));
+  date = moment().format('HH:mm:ss');
+  currentTime.html(moment().format('HH:mm:ss'));
 }
 
-var alarm = function(alarmTime){
-  if(currentTimeSeconds === alarmTime){
+var alarm = function(newAlarmTime){
+  if(currentTimeHours === newAlarmTime.hour() && currentTimeMinutes === newAlarmTime.minute()){
     console.log('Wake up!');
   }
 }
@@ -18,14 +18,17 @@ $(document).ready(function(){
 
   $('#alarm-set').submit(function(event) {
     event.preventDefault();
-    // alarmTime = $("#alarmTime").val();
-    alarmTime = 35;
+    alarmTime = $("#alarmTime").val();
+    var newAlarmTime = moment(alarmTime, "HH:mm");
+    console.log(newAlarmTime.hour() + ":" + newAlarmTime.minute());
     $("#wakeupTime").text(alarmTime);
     setInterval(function(){
       currentTimeSeconds = (moment().seconds());
-      console.log(currentTimeSeconds);
+      currentTimeMinutes = (moment().minutes());
+      currentTimeHours = (moment().hours());
+      console.log(currentTimeHours + ":" + currentTimeMinutes + ":" + currentTimeSeconds);
       update();
-      alarm(alarmTime);
+      alarm(newAlarmTime);
     }, 1000);
   });
 });
