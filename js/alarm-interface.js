@@ -9,7 +9,7 @@ var update = function() {
 
 var alarm = function(newAlarmTime){
   if(currentTimeHours === newAlarmTime.hour() && currentTimeMinutes === newAlarmTime.minute()){
-    console.log('Wake up!');
+    $('#timeToWakeUP').text("Wake Up!");
   }
 }
 
