@@ -8,6 +8,6 @@ Time.prototype.compareTimes = function(currentTimeHours, currentTimeMinutes, ala
   } else {
     return false;
   }
-}
+};
 
 exports.timeModule = Time;
