@@ -1,16 +1,12 @@
-var currentTime = null,
-        date = null,
-        alarmTime = null;
+var Time = require('./../js/alarm.js').timeModule;
+
+var currentTime;
+var date;
+var alarmTime;
 
 var update = function() {
   date = moment().format('HH:mm:ss');
   currentTime.html(moment().format('HH:mm:ss'));
-}
-
-var alarm = function(newAlarmTime){
-  if(currentTimeHours === newAlarmTime.hour() && currentTimeMinutes === newAlarmTime.minute()){
-    $('#timeToWakeUP').text("Wake Up!");
-  }
 }
 
 $(document).ready(function(){
@@ -20,6 +16,7 @@ $(document).ready(function(){
     event.preventDefault();
     alarmTime = $("#alarmTime").val();
     var newAlarmTime = moment(alarmTime, "HH:mm");
+    var finalAlarmTime = new Time(newAlarmTime);
     console.log(newAlarmTime.hour() + ":" + newAlarmTime.minute());
     $("#wakeupTime").text(alarmTime);
     setInterval(function(){
@@ -28,7 +25,10 @@ $(document).ready(function(){
       currentTimeHours = (moment().hours());
       console.log(currentTimeHours + ":" + currentTimeMinutes + ":" + currentTimeSeconds);
       update();
-      alarm(newAlarmTime);
+      var wakeUp = finalAlarmTime.compareTimes(currentTimeHours, currentTimeMinutes, newAlarmTime);
+      if (wakeUp === true) {
+        $('#timeToWakeUP').text("WAKE UP!");
+      }
     }, 1000);
   });
 });
